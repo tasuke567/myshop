@@ -1,100 +1,178 @@
-<!DOCTYPE html>
-<html lang="en">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+import { getFirestore, collection, getDocs, addDoc, getDoc, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js";
+const firebaseConfig = {
+    apiKey: "AIzaSyAyAz42eDHUGqbr85JjdqFUy6KZHL61HVY",
+    authDomain: "myshopwey.firebaseapp.com",
+    projectId: "myshopwey",
+    storageBucket: "myshopwey.appspot.com",
+    messagingSenderId: "45589448356",
+    appId: "1:45589448356:web:c4b2f24ffc7e0c916a4831",
+    measurementId: "G-JYPVT0XN17"
+};
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app)
+const table = document.getElementById("table")
+const form = document.getElementById("addForm")
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+async function getProducts(db) {
+    const empCol = collection(db, 'Products')
+    const empSnapshot = await getDocs(empCol)
+    return empSnapshot
+}
+
+function showData(Products) {
+    const row = table.insertRow(-1);
+    const nameCol = row.insertCell(0);
+    const priceCol = row.insertCell(1);
+    const deleteCol = row.insertCell(2);
+
+
+
+    nameCol.textContent = Products.data().name;
+    priceCol.textContent = Products.data().price;
+
+    // สร้างปุ่มลบ
+    const btnDelete = document.createElement('button');
+    btnDelete.textContent = 'ลบข้อมูล';
+    btnDelete.classList.add('btn', 'btn-danger', 'm-1');
+    btnDelete.setAttribute('data-id', Products.id);
+    deleteCol.appendChild(btnDelete);
+    // สร้างปุ่มอัปเดต
+    const btnUpdate = document.createElement('button');
+    btnUpdate.textContent = 'อัปเดต';
+    btnUpdate.classList.add('btn', 'btn-primary', 'm-1');
+    btnUpdate.setAttribute('data-id', Products.id);
+    deleteCol.appendChild(btnUpdate);
+
+    btnDelete.addEventListener('click', (e) => {
+        const id = e.target.getAttribute('data-id');
+
+        // ถามเตือนก่อนลบเอกสาร
+        const confirmed = confirm('Are you sure you want to delete this product?');
+        if (confirmed) {
+            deleteDoc(doc(db, 'Products', id));
         }
+    });
 
-        .modal-content {
-            background-color: #fff;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 50%;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            text-align: center;
-            position: relative;
-        }
+    // เพิ่มเหตุการณ์ click
+    btnUpdate.addEventListener('click', (e) => {
+        // รับ ID ของเอกสาร
+        let id = e.target.getAttribute('data-id');
+        console.log(id)
+        // แสดงแบบฟอร์มอัปเดต
+        showUpdateForm(id);
 
-        .close {
-            position: absolute;
-            top: 0;
-            right: 0;
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        /* Style for input fields and button as needed */
-    </style>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-</head>
-
-<body>
-
-    <main class="d-flex flex-column">
-        <div class="container my-3">
-            <h2 class="text-center">WEY STORE</h2>
-            <form id="addForm">
-                <div class="form-group">
-                    <label for="name">name</label>
-                    <input type="text" class="form-control" name="name">
-                </div>
-                <div class="form-group">
-                    <label for="price">price</label>
-                    <input type="text" class="form-control" name="price">
-                </div>
-                <div class="form-group my-3">
-                    <button type="submit" class="btn btn-success">submit</button>
-                </div>
-            </form>
-            <hr>
-            <div id="updateModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <form id="updateForm" action="/update" method="post">
-                        <!-- Input fields for product data -->
-                        <input type="text" name="nameu" id="nameInput">
-                        <input type="number" name="priceu" id="priceInput">
-                        <!-- Submit button -->
-                        <button type="submit">อัปเดต</button>
-                    </form>
-                </div>
-            </div>
-            
-
-            <table class="table table-bordered" id="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    
-                </tbody>
-            </table>
-        </div>
+    });
+}
 
 
-    </main>
-    <script type="module" src="./myapp.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
-</body>
 
-</html>
+
+//ดึงกลุ่ม document
+const data = await getProducts(db)
+data.forEach(Products => {
+    showData(Products)
+})
+
+
+//ดึงข้อมูลจากแบบฟอร์ม
+form.addEventListener('submit', (e) => {
+    e.preventDefault()
+    addDoc(collection(db, 'Products'), {
+        name: form.name.value,
+        price: form.price.value
+    })
+    form.name.value = ""
+    form.price.value = ""
+    alert("บันทึกข้อมูลเรียบร้อย")
+})
+
+function showUpdateForm(id) {
+
+    // Get the document to update
+    const productRef = doc(db, "Products", id);
+    console.log(id)
+
+    // Fetch the specific product document
+    getDoc(productRef)
+        .then(async (productSnapshot) => {
+            if (productSnapshot.exists()) {
+                const product = productSnapshot.data();
+
+                // Populate input fields with product data
+                const nameInput = document.getElementById('nameInput');
+                const priceInput = document.getElementById('priceInput');
+                nameInput.value = product.name;
+                priceInput.value = product.price;
+
+
+                const btnSubmit = document.createElement('button');
+                btnSubmit.type = 'submit';
+                btnSubmit.textContent = 'อัปเดต';
+                btnSubmit.classList.add('btn', 'btn-primary', 'm-1');
+                btnSubmit.setAttribute('data-id', product.id);
+
+
+                // Show the modal
+                const modal = document.getElementById('updateModal');
+                modal.style.display = 'block';
+
+                const closemadal = document.querySelector("span")
+                closemadal.addEventListener('click', (e) => {
+                    // Hide the modal
+                    const modal = document.getElementById('updateModal');
+                    modal.style.display = 'none';
+
+
+                })
+            } else {
+                console.log("Product not found.");
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching product:", error);
+        });
+    // Update product function
+    function updateProduct(e) {
+        e.preventDefault();
+        const name = e.target.querySelector('input[name="nameu"]').value;
+        const price = e.target.querySelector('input[name="priceu"]').value;
+        // Update the document in Firestore
+        // Use the updated field names "nameu" and "priceu"
+        const productRef = doc(db, "Products", id);
+        updateDoc(productRef, { name, price })
+            .then(() => {
+                alert("บันทึกข้อมูลเรียบร้อย")
+                closeModal();
+            })
+            .catch((error) => {
+                console.error("Error updating product:", error);
+            });
+    }
+
+    // Add an event listener to the form
+    const updateForm = document.getElementById('updateForm');
+    updateForm.addEventListener('submit', updateProduct);
+}
+
+
+
+function closeModal() {
+    // Hide the modal
+    const modal = document.getElementById('updateModal');
+    modal.style.display = 'none';
+
+}
+
+
+
+
+
+
+
+// const btnSubmit = document.createElement('button');
+// btnSubmit.type = 'submit';
+// btnSubmit.textContent = 'อัปเดต';
+// btnSubmit.classList.add('btn', 'btn-primary', 'm-1');
+// form.appendChild(btnSubmit);
