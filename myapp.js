@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc, getDoc, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js";
 const firebaseConfig = {
     apiKey: "AIzaSyAyAz42eDHUGqbr85JjdqFUy6KZHL61HVY",
     authDomain: "myshopwey.firebaseapp.com",
@@ -27,27 +27,47 @@ function showData(Products) {
     const priceCol = row.insertCell(1);
     const deleteCol = row.insertCell(2);
 
+
+
     nameCol.textContent = Products.data().name;
     priceCol.textContent = Products.data().price;
 
     // สร้างปุ่มลบ
-    const btn = document.createElement('button');
-    btn.textContent = 'ลบข้อมูล';
-    btn.classList.add('btn', 'btn-danger');
-    btn.setAttribute('data-id', Products.id);
-    deleteCol.appendChild(btn);
+    const btnDelete = document.createElement('button');
+    btnDelete.textContent = 'ลบข้อมูล';
+    btnDelete.classList.add('btn', 'btn-danger', 'm-1');
+    btnDelete.setAttribute('data-id', Products.id);
+    deleteCol.appendChild(btnDelete);
+    // สร้างปุ่มอัปเดต
+    const btnUpdate = document.createElement('button');
+    btnUpdate.textContent = 'อัปเดต';
+    btnUpdate.classList.add('btn', 'btn-primary', 'm-1');
+    btnUpdate.setAttribute('data-id', Products.id);
+    deleteCol.appendChild(btnUpdate);
 
-    btn.addEventListener('click', (e) => {
+    btnDelete.addEventListener('click', (e) => {
         const id = e.target.getAttribute('data-id');
 
         // ถามเตือนก่อนลบเอกสาร
         const confirmed = confirm('Are you sure you want to delete this product?');
         if (confirmed) {
             deleteDoc(doc(db, 'Products', id));
-            refreshData()
+
         }
     });
+
+    // เพิ่มเหตุการณ์ click
+    btnUpdate.addEventListener('click', (e) => {
+        // รับ ID ของเอกสาร
+        let id = e.target.getAttribute('data-id');
+        console.log(id)
+        // แสดงแบบฟอร์มอัปเดต
+        showUpdateForm(id);
+
+    });
 }
+
+
 
 
 //ดึงกลุ่ม document
@@ -66,40 +86,95 @@ form.addEventListener('submit', (e) => {
     })
     form.name.value = ""
     form.price.value = ""
-    refreshData()
+
     alert("บันทึกข้อมูลเรียบร้อย")
 })
 
-async function refreshData() {
-    // ดึงข้อมูลผลิตภัณฑ์ทั้งหมดจาก Firestore
-    const products = await getProducts(db);
+function showUpdateForm(id) {
 
-    // รีเซ็ตตาราง
-    const table = document.getElementById('table');
+    // Get the document to update
+    const productRef = doc(db, "Products", id);
+    console.log(id)
 
-    table.classList.add('table', 'table-bordered');
-    table.id = 'table';
+    // Fetch the specific product document
+    getDoc(productRef)
+        .then(async (productSnapshot) => {
+            if (productSnapshot.exists()) {
+                const product = productSnapshot.data();
 
-    const headerRow = document.createElement('tr');
-    const nameHeader = document.createElement('th');
-    nameHeader.textContent = 'name';
-    headerRow.appendChild(nameHeader);
+                // Populate input fields with product data
+                const nameInput = document.getElementById('nameInput');
+                const priceInput = document.getElementById('priceInput');
+                nameInput.value = product.name;
+                priceInput.value = product.price;
 
-    const priceHeader = document.createElement('th');
-    priceHeader.textContent = 'price';
-    headerRow.appendChild(priceHeader);
 
-    const deleteHeader = document.createElement('th');
-    deleteHeader.textContent = 'ลบข้อมูล';
-    headerRow.appendChild(deleteHeader);
+                const btnSubmit = document.createElement('button');
+                btnSubmit.type = 'submit';
+                btnSubmit.textContent = 'อัปเดต';
+                btnSubmit.classList.add('btn', 'btn-primary', 'm-1');
+                btnSubmit.setAttribute('data-id', product.id);
 
-    table.appendChild(headerRow);
 
-    // แสดงข้อมูลผลิตภัณฑ์ในตาราง
-    products.forEach((product) => {
-        const row = document.createElement('tr');
-        row.appendChild(document.createElement('th')).textContent = product.data().name;
-        row.appendChild(document.createElement('th')).textContent = product.data().price;
-        table.appendChild(row);
-    });
+                // Show the modal
+                const modal = document.getElementById('updateModal');
+                modal.style.display = 'block';
+
+                const closemadal = document.querySelector("span")
+                closemadal.addEventListener('click', (e) => {
+                    // Hide the modal
+                    const modal = document.getElementById('updateModal');
+                    modal.style.display = 'none';
+
+
+                })
+            } else {
+                console.log("Product not found.");
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching product:", error);
+        });
+    // Update product function
+    function updateProduct(e) {
+        e.preventDefault();
+        const name = e.target.querySelector('input[name="nameu"]').value;
+        const price = e.target.querySelector('input[name="priceu"]').value;
+        // Update the document in Firestore
+        // Use the updated field names "nameu" and "priceu"
+        const productRef = doc(db, "Products", id);
+        updateDoc(productRef, { name, price })
+            .then(() => {
+                alert("บันทึกข้อมูลเรียบร้อย")
+                closeModal();
+            })
+            .catch((error) => {
+                console.error("Error updating product:", error);
+            });
+    }
+
+    // Add an event listener to the form
+    const updateForm = document.getElementById('updateForm');
+    updateForm.addEventListener('submit', updateProduct);
 }
+
+
+
+function closeModal() {
+    // Hide the modal
+    const modal = document.getElementById('updateModal');
+    modal.style.display = 'none';
+
+}
+
+
+
+
+
+
+
+const btnSubmit = document.createElement('button');
+btnSubmit.type = 'submit';
+btnSubmit.textContent = 'อัปเดต';
+btnSubmit.classList.add('btn', 'btn-primary', 'm-1');
+form.appendChild(btnSubmit);
