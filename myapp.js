@@ -1,5 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+<<<<<<< HEAD
 import { getFirestore, collection, getDocs, addDoc, getDoc, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js";
+=======
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, updateDoc ,  doc } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js";
+>>>>>>> 4ed5276107f3a6920754f6dfe35fffea09a84001
 const firebaseConfig = {
     apiKey: "AIzaSyAyAz42eDHUGqbr85JjdqFUy6KZHL61HVY",
     authDomain: "myshopwey.firebaseapp.com",
@@ -52,7 +56,11 @@ function showData(Products) {
         const confirmed = confirm('Are you sure you want to delete this product?');
         if (confirmed) {
             deleteDoc(doc(db, 'Products', id));
+<<<<<<< HEAD
 
+=======
+            // refreshData()
+>>>>>>> 4ed5276107f3a6920754f6dfe35fffea09a84001
         }
     });
 
@@ -86,7 +94,11 @@ form.addEventListener('submit', (e) => {
     })
     form.name.value = ""
     form.price.value = ""
+<<<<<<< HEAD
 
+=======
+    // refreshData()
+>>>>>>> 4ed5276107f3a6920754f6dfe35fffea09a84001
     alert("บันทึกข้อมูลเรียบร้อย")
 })
 
