@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, updateDoc ,  doc } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js";
 const firebaseConfig = {
     apiKey: "AIzaSyAyAz42eDHUGqbr85JjdqFUy6KZHL61HVY",
     authDomain: "myshopwey.firebaseapp.com",
@@ -44,7 +44,7 @@ function showData(Products) {
         const confirmed = confirm('Are you sure you want to delete this product?');
         if (confirmed) {
             deleteDoc(doc(db, 'Products', id));
-            refreshData()
+            // refreshData()
         }
     });
 }
@@ -66,7 +66,7 @@ form.addEventListener('submit', (e) => {
     })
     form.name.value = ""
     form.price.value = ""
-    refreshData()
+    // refreshData()
     alert("บันทึกข้อมูลเรียบร้อย")
 })
 
