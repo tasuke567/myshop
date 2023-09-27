@@ -202,8 +202,10 @@ function showUpdateForm(id) {
 
 function closeModal() {
     // Hide the modal
-    const modal = document.getElementById('updateModal');
-    modal.style.display = 'none';
+    const modal1 = document.getElementById('updateModal');
+    const modal2 = document.getElementById('addModal');
+    modal2.style.display = 'none';
+    modal1.style.display = 'none';
 
 }
 
