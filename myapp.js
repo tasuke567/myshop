@@ -13,7 +13,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
 const table = document.getElementById("table")
-const form = document.getElementById("addForm")
+
 
 async function getProducts(db) {
     const empCol = collection(db, 'Products')
@@ -21,12 +21,64 @@ async function getProducts(db) {
     return empSnapshot
 }
 
+const form = document.getElementById("addForm1");
+const btnaddd = document.getElementById("btnadda");
+form.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    try {
+        const docRef = await addDoc(collection(db, "Products"), {
+            name: form.namea.value,
+            price: form.pricea.value
+        });
+        alert("บันทึกข้อมูลเรียบร้อย")
+        form.namea.value = ""
+        form.pricea.value = ""
+        closeModal();
+        console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+})
+
+
+
 function showData(Products) {
     const row = table.insertRow(-1);
     const nameCol = row.insertCell(0);
     const priceCol = row.insertCell(1);
     const deleteCol = row.insertCell(2);
 
+    const btnadda = document.getElementById("btnadd");
+    //ดึงข้อมูลจากแบบฟอร์ม
+    btnadda.addEventListener('click', (e) => {
+        
+
+        const btnadd = document.createElement('button');
+        btnadd.type = 'submit';
+        btnadd.textContent = 'เพิ่ม';
+        btnadd.classList.add('btn', 'btn-primary', 'm-1');
+
+        // Show the modal
+        const modal = document.getElementById('addModal');
+        modal.style.display = 'block';
+
+        const closemadal = document.getElementById("span1")
+        closemadal.addEventListener('click', (e) => {
+            // Hide the modal
+            const modal = document.getElementById('addModal');
+            modal.style.display = 'none';
+        })
+
+
+
+
+    });
+    // Add an event listener to the form
+
+
+    // Populate input fields with product data
+    const nameInput = document.getElementById('nameInput');
+    const priceInput = document.getElementById('priceInput');
 
 
     nameCol.textContent = Products.data().name;
@@ -40,7 +92,7 @@ function showData(Products) {
     deleteCol.appendChild(btnDelete);
     // สร้างปุ่มอัปเดต
     const btnUpdate = document.createElement('button');
-    btnUpdate.textContent = 'อัปเดต';
+    btnUpdate.textContent = 'แก้ไข';
     btnUpdate.classList.add('btn', 'btn-primary', 'm-1');
     btnUpdate.setAttribute('data-id', Products.id);
     deleteCol.appendChild(btnUpdate);
@@ -76,17 +128,7 @@ data.forEach(Products => {
 })
 
 
-//ดึงข้อมูลจากแบบฟอร์ม
-form.addEventListener('submit', (e) => {
-    e.preventDefault()
-    addDoc(collection(db, 'Products'), {
-        name: form.name.value,
-        price: form.price.value
-    })
-    form.name.value = ""
-    form.price.value = ""
-    alert("บันทึกข้อมูลเรียบร้อย")
-})
+
 
 function showUpdateForm(id) {
 
@@ -109,7 +151,7 @@ function showUpdateForm(id) {
 
                 const btnSubmit = document.createElement('button');
                 btnSubmit.type = 'submit';
-                btnSubmit.textContent = 'อัปเดต';
+                btnSubmit.textContent = 'แก้ไข';
                 btnSubmit.classList.add('btn', 'btn-primary', 'm-1');
                 btnSubmit.setAttribute('data-id', product.id);
 

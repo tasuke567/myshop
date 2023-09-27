@@ -46,29 +46,36 @@
     <main class="d-flex flex-column">
         <div class="container my-3">
             <h2 class="text-center">WEY STORE</h2>
-            <form id="addForm">
-                <div class="form-group">
-                    <label for="name">name</label>
-                    <input type="text" class="form-control" name="name">
-                </div>
-                <div class="form-group">
-                    <label for="price">price</label>
-                    <input type="text" class="form-control" name="price">
-                </div>
-                <div class="form-group my-3">
-                    <button type="submit" class="btn btn-success">submit</button>
-                </div>
-            </form>
+            
+            <div class="">
+                <button type="submit" class="btn btn-success" id="btnadd" >ADD</button>
+            </div>
             <hr>
             <div id="updateModal" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
-                    <form id="updateForm" action="/update" method="post">
+                    <form id="updateForm" method="post">
                         <!-- Input fields for product data -->
+                        <label for="name">name</label>
                         <input type="text" name="nameu" id="nameInput">
+                        <label for="price">price</label>
                         <input type="number" name="priceu" id="priceInput">
                         <!-- Submit button -->
-                        <button type="submit" >อัปเดต</button>
+                        <button type="submit">แก้ไข</button>
+                    </form>
+                </div>
+            </div>
+            <div id="addModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="span1">&times;</span>
+                    <form id="addForm1"  method="post">
+                        <!-- Input fields for product data -->
+                        <label for="name">name</label>
+                        <input type="text" name="namea" id="nameInput">
+                        <label for="price">price</label>
+                        <input type="number" name="pricea" id="priceInput">
+                        <!-- Submit button -->
+                        <button type="submit" id="btnadda">เพิ่ม</button>
                     </form>
                 </div>
             </div>
