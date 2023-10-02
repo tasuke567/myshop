@@ -86,13 +86,13 @@ function showData(Products) {
 
     // สร้างปุ่มลบ
     const btnDelete = document.createElement('button');
-    btnDelete.textContent = 'ลบข้อมูล';
+    btnDelete.textContent = 'DELETE';
     btnDelete.classList.add('btn', 'btn-danger', 'm-1');
     btnDelete.setAttribute('data-id', Products.id);
     deleteCol.appendChild(btnDelete);
     // สร้างปุ่มอัปเดต
     const btnUpdate = document.createElement('button');
-    btnUpdate.textContent = 'แก้ไข';
+    btnUpdate.textContent = 'EDIT';
     btnUpdate.classList.add('btn', 'btn-primary', 'm-1');
     btnUpdate.setAttribute('data-id', Products.id);
     deleteCol.appendChild(btnUpdate);
@@ -151,7 +151,7 @@ function showUpdateForm(id) {
 
                 const btnSubmit = document.createElement('button');
                 btnSubmit.type = 'submit';
-                btnSubmit.textContent = 'แก้ไข';
+                btnSubmit.textContent = 'EDIT';
                 btnSubmit.classList.add('btn', 'btn-primary', 'm-1');
                 btnSubmit.setAttribute('data-id', product.id);
 
@@ -200,14 +200,14 @@ function showUpdateForm(id) {
 
 
 
-function closeModal() {
-    // Hide the modal
-    const modal1 = document.getElementById('updateModal');
-    const modal2 = document.getElementById('addModal');
-    modal2.style.display = 'none';
-    modal1.style.display = 'none';
+// function closeModal() {
+//     // Hide the modal
+//     const modal1 = document.getElementById('updateModal');
+//     const modal2 = document.getElementById('addModal');
+//     modal2.style.display = 'none';
+//     modal1.style.display = 'none';
 
-}
+// }
 
 
 
