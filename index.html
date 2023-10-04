@@ -50,35 +50,65 @@
         <h2 class="text-center">WEY STORE</h2>
 
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-          <button type="submit" class="btn btn-success me-md-2" id="btnadd" data-bs-toggle="modal" >
+          <button
+            type="submit"
+            class="btn btn-success me-md-2"
+            id="btnadd"
+            data-bs-toggle="modal"
+            data-bs-target="#Modaladd"
+          >
             ADD
           </button>
         </div>
         <hr />
-        <div id="updateModal" class="modal fade" tabindex="-1">
-          <div class="modal-content">
-            <span class="close">&times;</span>
-            <form id="updateForm" method="post">
-              <!-- Input fields for product data -->
-              <label class="m-2" for="name">name</label>
-              <input
-                class="m-2"
-                type="text"
-                name="nameu"
-                id="nameInput"
-              /><br />
-              <label class="m-2" for="price">price</label>
-              <input class="m-2" type="number" name="priceu" id="priceInput" />
-              <!-- Submit button --><br />
-              <button type="submit" class="btn btn-primary">EDIT</button>
-            </form>
-          </div>
-        </div>
-        <div id="addModal" class="modal container-fluid">
+        <div id="Modalupdate" class="modal fade" >
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
+                <h5 class="modal-title">UPDATE DATA</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+
+              <form id="updateForm" method="post">
+                <!-- Input fields for product data -->
+                <div class="modal-body">
+                <label class="m-2" for="name">name</label>
+                  <input
+                    class="m-2"
+                    type="text"
+                    name="nameu"
+                    id="nameInput"
+                  /><br />
+                  <label class="m-2" for="price">price</label>
+                  <input
+                    class="m-2"
+                    type="number"
+                    name="priceu"
+                    id="priceInput"
+                  />
+                </div>
+                <!-- Submit button --><br />
+                <div class="modal-footer">
+                   <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+                    Close</button>
+                <button type="submit" class="btn btn-primary">UPDATE</button>
+              </form></div>
+            </div>
+          </div>
+        </div>
+        <div id="Modaladd" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">ADD DATA</h5>
                 <button
                   type="button"
                   class="btn-close"
@@ -89,7 +119,7 @@
               <form id="addForm1" method="post">
                 <!-- Input fields for product data -->
                 <div class="modal-body">
-                  <label class="m-2" for="name">name</label>
+                  <label class="m-2" for="name">name </label>
                   <input
                     class="m-2"
                     type="text"
@@ -105,15 +135,12 @@
                   />
                 </div>
                 <!-- Submit button --><br />
-
                 <div class="modal-footer">
                   <button
                     type="button"
                     class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                  >
-                    Close
-                  </button>
+                    data-bs-dismiss="modal">
+                    Close</button>
                   <button type="submit" id="btnadda" class="btn btn-primary">
                     Save changes
                   </button>
