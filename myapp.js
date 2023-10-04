@@ -41,7 +41,6 @@ form.addEventListener("submit", async (e) => {
     alert("บันทึกข้อมูลเรียบร้อย");
     form.namea.value = "";
     form.pricea.value = "";
-    closeModal();
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);
@@ -74,13 +73,23 @@ function showData(Products) {
   // สร้างปุ่มลบ
   const btnDelete = document.createElement("button");
   btnDelete.textContent = "DELETE";
-  btnDelete.classList.add("btn", "btn-danger", "m-1");
+  btnDelete.classList.add(
+    "btn",
+    "btn-danger",
+    "m-1"
+  );
+  btnDelete.style.width='80px'
   btnDelete.setAttribute("data-id", Products.id);
   deleteCol.appendChild(btnDelete);
   // สร้างปุ่มอัปเดต
   const btnUpdate = document.createElement("button");
   btnUpdate.textContent = "EDIT";
-  btnUpdate.classList.add("btn", "btn-primary", "m-1");
+  btnUpdate.style.width = "80px";
+  btnUpdate.classList.add(
+    "btn",
+    "btn-primary",
+    "m-1"
+  );
   btnUpdate.setAttribute("data-id", Products.id);
   btnUpdate.setAttribute("data-bs-target", "#Modalupdate");
   btnUpdate.setAttribute("data-bs-toggle", "modal");
@@ -134,7 +143,7 @@ function showUpdateForm(id) {
         btnSubmit.textContent = "UPDATE";
         btnSubmit.classList.add("btn", "btn-success", "me-md-2");
         btnSubmit.setAttribute("data-id", product.id);
-        
+
         console.log(btnSubmit);
       } else {
         console.log("Product not found.");
@@ -148,8 +157,8 @@ function showUpdateForm(id) {
     e.preventDefault();
     const name = e.target.querySelector('input[name="nameu"]').value;
     const price = e.target.querySelector('input[name="priceu"]').value;
-    console.log(name)
-    console.log(price)
+    console.log(name);
+    console.log(price);
     // Update the document in Firestore
     // Use the updated field names "nameu" and "priceu"
     const productRef = doc(db, "Products", id);
