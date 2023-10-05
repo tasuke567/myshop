@@ -52,7 +52,7 @@ function showData(Products) {
   const nameCol = row.insertCell(0);
   const priceCol = row.insertCell(1);
   const deleteCol = row.insertCell(2);
-
+  row.classList.add("table-light");
   const btnadda = document.getElementById("btnadd");
   //ดึงข้อมูลจากแบบฟอร์ม
   btnadda.addEventListener("click", (e) => {
