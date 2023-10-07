@@ -9,9 +9,17 @@ import {
   doc,
   updateDoc,
 } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+} from "https://www.gstatic.com/firebasejs/9.8.1/firebase-storage.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAyAz42eDHUGqbr85JjdqFUy6KZHL61HVY",
   authDomain: "myshopwey.firebaseapp.com",
+  databaseURL:
+    "https://myshopwey-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "myshopwey",
   storageBucket: "myshopwey.appspot.com",
   messagingSenderId: "45589448356",
@@ -22,6 +30,98 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const table = document.getElementById("table");
+const storage = getStorage(app);
+const storageRef = ref(storage);
+
+const spaceRef = ref(
+  storage,
+  "gs://myshopwey.appspot.com/android-svgrepo-com.svg"
+);
+
+const android = ref(storage, "images/android-svgrepo-com.svg");
+
+const ios = ref(storage, "images/ios-svgrepo-com.svg");
+
+const ip15 = ref(storage, "images/ip5.webp");
+
+downloadAndInsertImagea(android);
+downloadAndInsertImagei(ios);
+
+function downloadAndInsertImagea(imageRef) {
+  // Get the download URL for the image file
+  getDownloadURL(imageRef)
+    .then((url) => {
+      // Download the image directly
+      const xhr = new XMLHttpRequest();
+      xhr.responseType = "blob";
+      xhr.onload = (event) => {
+        const blob = xhr.response;
+      };
+      xhr.open("GET", url);
+      xhr.send();
+
+      // Insert the image into an <img> element
+      const img = document.getElementById("myimgandriod");
+      img.setAttribute("src", url);
+    })
+    .catch((error) => {
+      // Handle any errors
+    });
+}
+function downloadAndInsertImageip15(imageRef) {
+  // Get the download URL for the image file
+  getDownloadURL(imageRef)
+    .then((url) => {
+      // Download the image directly
+      const xhr = new XMLHttpRequest();
+      xhr.responseType = "blob";
+      xhr.onload = (event) => {
+        const blob = xhr.response;
+      };
+      xhr.open("GET", url);
+      xhr.send();
+
+      // Insert the image into an <img> element
+      const img = document.getElementById("myimgip15");
+      const rows = table.querySelectorAll("tbody tr");
+
+      for (const row of rows) {
+        const firstName = row.querySelector("td:nth-child(1)");
+
+        console.log(firstName.textContent);
+           
+          img.setAttribute("src", url);
+        
+        
+      }
+      
+    })
+    .catch((error) => {
+      // Handle any errors
+    });
+}
+
+function downloadAndInsertImagei(imageRef) {
+  // Get the download URL for the image file
+  getDownloadURL(imageRef)
+    .then((url) => {
+      // Download the image directly
+      const xhr = new XMLHttpRequest();
+      xhr.responseType = "blob";
+      xhr.onload = (event) => {
+        const blob = xhr.response;
+      };
+      xhr.open("GET", url);
+      xhr.send();
+
+      // Insert the image into an <img> element
+      const img = document.getElementById("myimgios");
+      img.setAttribute("src", url);
+    })
+    .catch((error) => {
+      // Handle any errors
+    });
+}
 
 async function getProducts(db) {
   const empCol = collection(db, "Products");
@@ -69,27 +169,25 @@ function showData(Products) {
 
   nameCol.textContent = Products.data().name;
   priceCol.textContent = Products.data().price;
+  const img = document.createElement("img");
+  img.setAttribute("ID","myimgip15")
+   nameCol.appendChild(img);
+   img.classList.add("ratio", "ratio-16x9");
+  // downloadAndInsertImageip15(ip15);
+  
 
   // สร้างปุ่มลบ
   const btnDelete = document.createElement("button");
   btnDelete.textContent = "DELETE";
-  btnDelete.classList.add(
-    "btn",
-    "btn-danger",
-    "m-1"
-  );
-  btnDelete.style.width='80px'
+  btnDelete.classList.add("btn", "btn-danger", "m-1");
+  btnDelete.style.width = "80px";
   btnDelete.setAttribute("data-id", Products.id);
   deleteCol.appendChild(btnDelete);
   // สร้างปุ่มอัปเดต
   const btnUpdate = document.createElement("button");
   btnUpdate.textContent = "EDIT";
   btnUpdate.style.width = "80px";
-  btnUpdate.classList.add(
-    "btn",
-    "btn-primary",
-    "m-1"
-  );
+  btnUpdate.classList.add("btn", "btn-primary", "m-1");
   btnUpdate.setAttribute("data-id", Products.id);
   btnUpdate.setAttribute("data-bs-target", "#Modalupdate");
   btnUpdate.setAttribute("data-bs-toggle", "modal");

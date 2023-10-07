@@ -16,19 +16,19 @@
     <main class="container-fluid">
       <div class="container my-3">
         <h2 class="text-center">WEY STORE</h2>
+        <div class="container m-lg-5 p-lg-5">
+          <div class="row align-items-center">
+            <div class="col">
+              <img  id="myimgandriod" src="..." class="ratio ratio-1x1 " alt="...">
+            </div>
+            <div class="col">
+              <img  id="myimgios" src="..." class="ratio ratio-1x1  " alt="...">
+            </div>
+        
+          </div>
 
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-          <button
-            type="submit"
-            class="btn btn-success me-md-2"
-            id="btnadd"
-            data-bs-toggle="modal"
-            data-bs-target="#Modaladd"
-          >
-            ADD
-          </button>
-        </div>
-        <hr />
+        
+</div>
         <div id="Modalupdate" class="modal fade" >
           <div class="modal-dialog">
             <div class="modal-content">
@@ -41,6 +41,7 @@
                   aria-label="Close"
                 ></button>
               </div>
+              
 
               <form id="updateForm" method="post">
                 <!-- Input fields for product data -->
@@ -117,6 +118,18 @@
             </div>
           </div>
         </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button
+            type="submit"
+            class="btn btn-success me-md-2"
+            id="btnadd"
+            data-bs-toggle="modal"
+            data-bs-target="#Modaladd"
+          >
+            ADD
+          </button>
+        </div>
+      <hr>
 
         <table class="table table-hover" >
           <thead>
