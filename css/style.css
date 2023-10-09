@@ -166,7 +166,7 @@ a.more {
   right: 0px;
   z-index: 2;
   max-width: 780px;
-  left: -2000px;
+  left: -200px;
 }
 @media (min-width: 320px) {
   .hero .hero-img-wrap img {
@@ -214,7 +214,7 @@ a.more {
   background-image: url("../images/dots-light.svg");
   background-size: contain;
   background-repeat: no-repeat;
-  right: -100px;
+  right: -0px;
   top: -0px;
 }
 @media (min-width: 1200px) {
