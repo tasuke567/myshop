@@ -38,7 +38,7 @@ const ss23 = ref(
   "images/th-galaxy-s23-s918-sm-s918blibthl-534856828 (1).png"
 );
 const ip14 = ref(storage, "images/download.jpg");
-const ip15 = ref(storage, "images/images(1).jpg");
+const ip15 = ref(storage, "images/images (1).jpg");
 const oppon2 = ref(storage, "images/download.webp");
 const zflip5 = ref(storage, "images/zflip5.jpg");
 const ss22 = ref(storage, "images/ss22.jpg");
